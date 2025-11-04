@@ -12,6 +12,9 @@ var upgrader = websocket.Upgrader {
 	},
 }
 
+var usernames []string
+var clients map[string]*websocket.Conn
+
 func wsHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -20,6 +23,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 	
+
 	for {
 		_, message, err := conn.ReadMessage()
 		if err != nil {

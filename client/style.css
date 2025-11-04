@@ -1,0 +1,52 @@
+html, body {
+   margin: 0;
+   padding: 0;
+   height: 100%;
+}
+
+body {
+   background-color: #c4c4c4;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+}
+
+.messageBox {
+   padding-bottom: 10px;
+   width: 95%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 10px;
+   flex-shrink: 0;
+}
+
+#messages {
+   border: 2px solid black;
+   flex: 1;
+   margin: 10px;
+   height: 90vh;
+   width: 50%;
+   overflow-y: auto;
+   display: flex;
+   align-items: center;
+   justify-content: flex-end;
+   flex-direction: column;
+}
+
+.messageBox input {
+   width: 30%;
+   height: 30px;
+   border: 1px solid black;
+   border-radius: 8px;
+   outline: none;
+   padding-left: 10px;
+}
+
+.messageBox button {
+   width: 10%;
+   height: 34px;
+   border: 1px solid black;
+   border-radius: 8px;
+   outline: none;
+}
