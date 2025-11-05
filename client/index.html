@@ -26,12 +26,10 @@
             ws.onmessage = function(event) {
                let messageDisplay = document.getElementById("messages");
                const p = document.createElement('p');
+               p.className = 'server-message';
                p.textContent = event.data;
                messageDisplay.appendChild(p);
-
-        // only auto-scroll if already at bottom
-               const isAtBottom = middle.scrollTop + middle.clientHeight >= middle.scrollHeight - 5;
-               if (isAtBottom) middle.scrollTop = middle.scrollHeight;
+               messageDisplay.scrollTop = messageDisplay.scrollHeight;
             };
 
             ws.onclose = function() {
@@ -47,8 +45,18 @@
          function sendMessage() {
             let input = document.getElementById("messageInput");
             let message = input.value;
-            ws.send(message);
-            input.value = "";
+            
+            message = message.trim();
+            if(message != "") {
+               ws.send(message);
+               input.value = "";
+               let messageDisplay = document.getElementById("messages");
+               const p = document.createElement('p');
+               p.textContent = message;
+               p.className = 'client-message';
+               messageDisplay.appendChild(p);
+               messageDisplay.scrollTop = messageDisplay.scrollHeight;
+            }
          }
          connect();
       </script>
