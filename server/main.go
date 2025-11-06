@@ -13,7 +13,7 @@ var upgrader = websocket.Upgrader {
 }
 
 var usernames []string
-var clients map[string]*websocket.Conn
+var clients = make(map[string]*websocket.Conn)
 
 func wsHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
@@ -22,13 +22,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer conn.Close()
-
-	if _, exists := clients["chiru"]; !exists {
-		clients["chiru"] = conn
-	} else if _, exists := clients["praju"]; !exists {
-		clients["praju"] = conn
-	}
-	
 
 	for {
 		_, message, err := conn.ReadMessage()
@@ -47,12 +40,17 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func main() {
 	fmt.Println("Server!")
 	fmt.Println("Server started at localhost:8080!")
 	usernames = append(usernames, "chiru", "praju")
 
 	http.HandleFunc("/chat", wsHandler)
+	http.HandleFunc("/loginOrSignup", loginHandler)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println("Error starting server : ", err)
