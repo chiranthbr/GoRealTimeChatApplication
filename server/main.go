@@ -22,6 +22,12 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer conn.Close()
+
+	if _, exists := clients["chiru"]; !exists {
+		clients["chiru"] = conn
+	} else if _, exists := clients["praju"]; !exists {
+		clients["praju"] = conn
+	}
 	
 
 	for {
@@ -44,6 +50,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Println("Server!")
 	fmt.Println("Server started at localhost:8080!")
+	usernames = append(usernames, "chiru", "praju")
 
 	http.HandleFunc("/chat", wsHandler)
 	err := http.ListenAndServe(":8080", nil)
