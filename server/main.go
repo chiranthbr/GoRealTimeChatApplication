@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -41,7 +43,21 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
+	var cred struct {
+		username string `json:"username"`
+		passowrd string `json:"password"`
+	}
 
+	if r.Method != http.MethodPost {
+		http.Error("Not suitable method request!", http.StatusMethodNotAllowed)
+		return
+	}	
+
+	err := json.NewDecoder(r.Body).Decode(&cred)
+	if err != nil {
+		http.Error(w, "Invalid json", http.StatusBadRequest)
+		return
+	}
 
 }
 
